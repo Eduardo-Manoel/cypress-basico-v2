@@ -22,7 +22,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#email').type('eduardomanoelnn@yahoo.com.br',{delay: 0 })
         cy.get('#phone').type('982070081',{delay: 0 })
         cy.get('#open-text-area').type (longText, {delay: 0 })
-        cy.get('button[type="submit"]') .click ()
+        cy.contains('button','Enviar').click()
         cy.get('.success').should ('be.visible')
     })
     it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
@@ -31,7 +31,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('#email').type('eduardomanoelnn,yahoo.com.br')
         cy.get('#phone').type('982070081')
         cy.get('#open-text-area').type ('teste')
-        cy.get('button[type="submit"]') .click ()
+        cy.contains('button','Enviar').click()
         cy.get('.error').should ('be.visible')
     })
     it('Testar Valor Não Numérico no Campo Telefone',function() {
@@ -45,7 +45,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
       cy.get('#email-checkbox').click()
       //cy.get('#phone').type('666')
       cy.get('#open-text-area').type ('teste')
-      cy.get('button[type="submit"]') .click ()
+      cy.contains('button','Enviar').click()
       cy.get('.error').should ('be.visible')
     })
     it('preenche e limpa os campos nome, sobrenome, email e telefone',function(){
@@ -67,11 +67,11 @@ describe('Central de Atendimento ao Cliente TAT', function() {
       cy.get('#open-text-area').type ('teste')
       .clear()
       .should('have.value','')
-      cy.get('button[type="submit"]')
+      cy.contains('button','Enviar').click()
        .click ()
     })
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios',function(){
-      cy.get('button[type="submit"]')
+      cy.contains('button','Enviar').click() 
       .click ()
       cy.get('.error').should('be.visible')
     })
@@ -79,4 +79,5 @@ describe('Central de Atendimento ao Cliente TAT', function() {
       cy.fillMandatoryFieldsAndSubmit()
       cy.get('.success').should ('be.visible')
     })
+    //it('')
   })
