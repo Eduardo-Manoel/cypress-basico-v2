@@ -22,6 +22,7 @@
   "license": "MIT",
   "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme",
   "devDependencies": {
+    "@playwright/test": "^1.22.2",
     "cypress": "^10.2.0"
   }
 }
