@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Eduardo-Manoel/cypress-basico-v2.git"  
+    "url": "git@github.com:Eduardo-Manoel/cypress-basico-v2.git"
   },
   "keywords": [
     "Testing",
@@ -22,6 +22,6 @@
   "license": "MIT",
   "homepage": "https://github.com/wlsf82/cypress-basico-v2#readme",
   "devDependencies": {
-    "cypress": "^9.5.1"
+    "cypress": "^10.3.0"
   }
 }
