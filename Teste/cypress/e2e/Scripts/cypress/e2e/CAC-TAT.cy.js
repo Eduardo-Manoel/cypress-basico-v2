@@ -146,6 +146,12 @@ describe('Central de Atendimento ao Cliente TAT', function () {
   it.only('Marca ambons ckeckbox,depois desmarcao ultimo', function () {
     cy.get('input[type="checkbox"')
       .check()
+      .first()
+      .uncheck()
+      .should('not.be.checked')
+      .last()
+      .check()
+      .should('be.checked')
   })
   it('Marca cada tipo de atemdimento', function () {
     cy.get('input[type="radio"]')
