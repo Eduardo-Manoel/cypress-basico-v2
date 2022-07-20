@@ -9,13 +9,13 @@
 
 describe('Central de Atendimento ao Cliente TAT', function () {
   beforeEach(function () {
-    cy.visit('src/index.html')
+    cy.visit('/src/index.html')
   })
-  it('verifica o título da aplicação', function () {
+  it('COMEÇO- Verifica o título da aplicação', function () {
     cy.title()
       .should('be.equal', 'Central de Atendimento ao Cliente TAT')
   })
-  it('Verifica e Prenche campos Obrigatórios', function () {
+  it('Exec 1- Verifica e Prenche campos Obrigatórios', function () {
     const longText = 'teste, lkandokasjndoiasdioashjdoiashdoiashdaioshdioashduioashdioashdioashdiohasdoihasdoiashdoiashdoiashdioashdioahdoiashjdaiosdhjasoidhasoidhasiodhjasiodhasoisdhasiodhasoidhasoidhasiodhasiodhasiodhaiosdhaoisdhoaishdiaos'
     cy.get('#firstName')
       .type('Eduardo', { delay: 0 })
@@ -32,7 +32,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.success')
       .should('be.visible')
   })
-  it('Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function () {
+  it('Exec 2- Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function () {
     cy.get('#firstName')
       .type('Eduardo')
     cy.get('#lastName')
@@ -48,12 +48,12 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.error')
       .should('be.visible')
   })
-  it('Testar Valor Não Numérico no Campo Telefone', function () {
+  it('Exec 3- Testar Valor Não Numérico no Campo Telefone', function () {
     cy.get('#phone')
       .type('ppp')
       .should('have.value', '')
   })
-  it('Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
+  it('Exec 4- Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
     cy.get('#firstName')
       .type('Eduardo')
     cy.get('#lastName')
@@ -71,7 +71,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.error')
       .should('be.visible')
   })
-  it('Preenche e limpa os campos nome, sobrenome, email e telefone', function () {
+  it('Exec 5- Preenche e limpa os campos nome, sobrenome, email e telefone', function () {
     cy.get('#firstName').type('Eduardo')
       .clear()
       .should('have.value', '')
@@ -92,13 +92,13 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .should('have.value', '')
     cy.contains('button', 'Enviar').click()
   })
-  it('Exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function () {
+  it('Exec 6-Exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function () {
     cy.contains('button', 'Enviar')
       .click()
     cy.get('.error')
       .should('be.visible')
   })
-  it('Envia o formuário com sucesso usando um comando customizado', function () {
+  it('Exec 7- Envia o formuário com sucesso usando um comando customizado', function () {
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('.success')
       .should('be.visible')
@@ -107,7 +107,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.success')
       .should('be.visible')
   })
-  it('Seleciona o produto You Tube', function () {
+  it('Exec 8- Seleciona o produto You Tube', function () {
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('#product')
       .select('YouTube')
@@ -117,7 +117,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.success')
       .should('be.visible')
   })
-  it('Seleciona o produto mentoria pelo seu valor', function () {
+  it.only('Exec 9- Seleciona o produto mentoria pelo seu valor', function () {
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('#product')
       .select('mentoria')
@@ -127,7 +127,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.success')
       .should('be.visible')
   })
-  it('Seleciona um produto por seu indice', function () {
+  it('Exec 10- Seleciona um produto por seu indice', function () {
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('#product')
       .select(1)
@@ -137,17 +137,48 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.success')
       .should('be.visible')
   })
-  it('Marcar cada tipo de atendimento', function () {
+  it('Exec 11- Marcar cada tipo de atendimento', function () {
     cy.get('input[type="radio"][value="feedback"]')
       .check()
       .click()
       .should('have.value', 'feedback')
   })
-  it.only('Marca ambons ckeckbox,depois desmarcao ultimo', function () {
+  it('Exec 12- Marca ambons ckeckbox,depois desmarcao ultimo', function () {
     cy.get('input[type="checkbox"')
       .check()
+      .first()
+      .uncheck()
+      .should('not.be.checked')
+      .last()
+      .check()
+      .should('be.checked')
   })
-  it('Marca cada tipo de atemdimento', function () {
+  it('Exec 13- Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
+    cy.get('#firstName')
+      .type('Eduardo')
+    cy.get('#lastName')
+      .type('Manoel')
+    cy.get('#email')
+      .type('eduardomanoelnn@yahoo.com.br')
+    cy.get('#phone-checkbox')
+      .check()
+    cy.get('#open-text-area')
+      .type('teste')
+    cy.contains('button', 'Enviar')
+      .click()
+    cy.get('.error')
+      .should('be.visible')
+  })
+  it('Exec 14- Seleciona um arquivo da pasta fixtures', function () {
+    cy.get('input[type="file"]#file-upload')
+      .should('not.have.value')
+      .selectFile('./cypress/fixtures/example.json')
+      .should(function ($input) {
+        expect($input[0].files[0].name).to.equal('example.json')
+      })
+
+  })
+  it('Exec - Marca cada tipo de atemdimento', function () {
     cy.get('input[type="radio"]')
       .should('have.length', 3)
       .each(function ($radio) {

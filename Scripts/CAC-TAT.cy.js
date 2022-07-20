@@ -9,7 +9,7 @@
 
 describe('Central de Atendimento ao Cliente TAT', function () {
   beforeEach(function () {
-    cy.visit('src/index.html')
+    cy.visit('/src/index.html')
   })
   it('COMEÇO- Verifica o título da aplicação', function () {
     cy.title()
@@ -169,8 +169,8 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.error')
       .should('be.visible')
   })
-  it.only('Exec 14- Seleciona um arquivo da pasta fixtures',function(){
-    cy.get('')
+  it.only('Exec 14- Seleciona um arquivo da pasta fixtures', function () {
+    cy.get('input[type="file"]#file-upload')
   })
   it('Exec - Marca cada tipo de atemdimento', function () {
     cy.get('input[type="radio"]')
