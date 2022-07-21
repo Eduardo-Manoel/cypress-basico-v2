@@ -117,7 +117,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('.success')
       .should('be.visible')
   })
-  it.only('Exec 9- Seleciona o produto mentoria pelo seu valor', function () {
+  it('Exec 9- Seleciona o produto mentoria pelo seu valor', function () {
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('#product')
       .select('mentoria')
@@ -178,14 +178,40 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       })
 
   })
-  it('Exec - Marca cada tipo de atemdimento', function () {
+  it('Exec 15 - Marca cada tipo de atemdimento', function () {
     cy.get('input[type="radio"]')
       .should('have.length', 3)
       .each(function ($radio) {
         cy.wrap($radio).check()
         cy.wrap($radio).should('be.checked')
       })
-
+  })
+  it('Exec 16 - Seleciona um arquivo simulando um drag-and-drop', function () {
+    cy.get('input[type="file"]#file-upload')
+      .should('not.have.value')
+      .selectFile('./cypress/fixtures/example.json', { actinon: 'drag-drop' })
+      .should(function ($input) {
+        expect($input[0].files[0].name).to.equal('example.json')
+      })
+  })
+  it('Exec 16 - Seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function () {
+    cy.fixture('example.json').as('arquivoexemplo')
+    cy.get('input[type="file"]')
+      .selectFile('@arquivoexemplo')
+      .should(function ($input) {
+        expect($input[0].files[0].name).to.equal('example.json')
+      })
+  })
+  it('Exec 17 - Verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function () {
+    cy.get('#privacy a')
+    .should('have.attr', 'target', '_blank')
+  })
+  it.only('Exec 18 - Acessa a página da política de privacidade removendo o target e então clicanco no link', function () {
+    cy.get('#privacy a')
+      .invoke('removeAttr', 'target')
+      .click()
+  })
+  it.only('Exec 19 - Testa a página da política de privavidade de forma independente',function(){
+    cy.visit('/src/privacy.html')
   })
 })
-
