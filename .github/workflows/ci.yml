@@ -1,21 +1,50 @@
-name: End-to-end tests
-on: [push]
+name: Continuous Integration
+
+on:
+  push:
+    branches: [master]
+
 jobs:
-  cypress-run:
-    runs-on: ubuntu-20.04
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm test
+
+  cypress-test:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
       - name: Cypress run
-        uses: cypress-io/github-action@v4      
+        uses: cypress-io/github-action@v4
         with:
-          config-file: cypress.config.ts
-          record: true
-          parallel: true
-          group: 'UI - Chrome'
-          install-command: yarn --immutable
-          browser: chrome
-          headless: true
+          start: npm start
+          wait-on: "http://localhost:3000"
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
 
+  deploy:
+    needs: [test, cypress-test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
