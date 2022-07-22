@@ -24,6 +24,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - uses: cypress-io/github-action@v4      
+        with:
+          config-file: cypress.config.ts
+          record: true
+          parallel: true
+          group: 'UI - Chrome'
+          install-command: yarn --immutable
+          browser: chrome
+          headless: true
+
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -34,3 +44,5 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+    
