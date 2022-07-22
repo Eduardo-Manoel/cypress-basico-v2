@@ -206,12 +206,12 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('#privacy a')
     .should('have.attr', 'target', '_blank')
   })
-  it.only('Exec 18 - Acessa a página da política de privacidade removendo o target e então clicanco no link', function () {
+  it('Exec 18 - Acessa a página da política de privacidade removendo o target e então clicanco no link', function () {
     cy.get('#privacy a')
       .invoke('removeAttr', 'target')
       .click()
   })
-  it.only('Exec 19 - Testa a página da política de privavidade de forma independente',function(){
+  it('Exec 19 - Testa a página da política de privavidade de forma independente',function(){
     cy.visit('/src/privacy.html')
   })
 })
