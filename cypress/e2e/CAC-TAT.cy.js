@@ -8,6 +8,7 @@
 // <reference types="Cypress"/>
 
 describe('Central de Atendimento ao Cliente TAT', function () {
+  const THREE_SECONDS_IN_MS = 3000 
   beforeEach(function () {
     cy.visit('/src/index.html')
   })
@@ -17,6 +18,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
   })
   it('Exec 1- Verifica e Prenche campos Obrigatórios', function () {
     const longText = 'teste, lkandokasjndoiasdioashjdoiashdoiashdaioshdioashduioashdioashdioashdiohasdoihasdoiashdoiashdoiashdioashdioahdoiashjdaiosdhjasoidhasoidhasiodhjasiodhasoisdhasiodhasoidhasoidhasiodhasiodhasiodhaiosdhaoisdhoaishdiaos'
+    cy.clock()
     cy.get('#firstName')
       .type('Eduardo', { delay: 0 })
     cy.get('#lastName')
@@ -31,8 +33,12 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .click()
     cy.get('.success')
       .should('be.visible')
+    cy.tick(THREE_SECONDS_IN_MS)
+    cy.get('.success')
+      .should('not.be.visible')
   })
   it('Exec 2- Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function () {
+    cy.clock()
     cy.get('#firstName')
       .type('Eduardo')
     cy.get('#lastName')
@@ -47,6 +53,9 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .click()
     cy.get('.error')
       .should('be.visible')
+    cy.tick(THREE_SECONDS_IN_MS)
+    cy.get('.error')
+      .should('not.be.visible')
   })
   it('Exec 3- Testar Valor Não Numérico no Campo Telefone', function () {
     cy.get('#phone')
@@ -54,6 +63,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .should('have.value', '')
   })
   it('Exec 4- Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
+    cy.clock()
     cy.get('#firstName')
       .type('Eduardo')
     cy.get('#lastName')
@@ -70,6 +80,9 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .click()
     cy.get('.error')
       .should('be.visible')
+    cy.tick(THREE_SECONDS_IN_MS)
+    cy.get('.error')
+      .should('not.be.visible')
   })
   it('Exec 5- Preenche e limpa os campos nome, sobrenome, email e telefone', function () {
     cy.get('#firstName').type('Eduardo')
@@ -93,12 +106,17 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.contains('button', 'Enviar').click()
   })
   it('Exec 6-Exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function () {
+    cy.clock()
     cy.contains('button', 'Enviar')
       .click()
     cy.get('.error')
       .should('be.visible')
+    cy.tick(THREE_SECONDS_IN_MS)
+    cy.get('.error')
+      .should('not.be.visible')
   })
   it('Exec 7- Envia o formuário com sucesso usando um comando customizado', function () {
+    cy.clock()
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('.success')
       .should('be.visible')
@@ -106,6 +124,10 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .click()
     cy.get('.success')
       .should('be.visible')
+      cy.tick(THREE_SECONDS_IN_MS)
+    cy.get('.error')
+      .should('not.be.visible')
+      
   })
   it('Exec 8- Seleciona o produto You Tube', function () {
     cy.fillMandatoryFieldsAndSubmit()
@@ -204,14 +226,14 @@ describe('Central de Atendimento ao Cliente TAT', function () {
   })
   it('Exec 17 - Verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function () {
     cy.get('#privacy a')
-    .should('have.attr', 'target', '_blank')
+      .should('have.attr', 'target', '_blank')
   })
   it('Exec 18 - Acessa a página da política de privacidade removendo o target e então clicanco no link', function () {
     cy.get('#privacy a')
       .invoke('removeAttr', 'target')
       .click()
   })
-  it('Exec 19 - Testa a página da política de privavidade de forma independente',function(){
+  it('Exec 19 - Testa a página da política de privavidade de forma independente', function () {
     cy.visit('/src/privacy.html')
   })
 })

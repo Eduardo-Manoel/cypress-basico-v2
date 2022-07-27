@@ -12,7 +12,6 @@ Cypress.Commands.add('fillMandatoryFieldsAndSubmit', function () {
   cy.contains('button', 'Enviar')
     .click()
 })
-
 Cypress.Commands.add('LoginSeuMadruga', function () {
   cy.get('a:contains(Login)')
             .should('be.visible')
@@ -30,4 +29,4 @@ Cypress.Commands.add('LoginSeuMadruga', function () {
         cy.get('.alert')
             .should('be.visible')
         cy.contains('.alert', 'Bem vindo, Eduardo2!')
-})
+})    
