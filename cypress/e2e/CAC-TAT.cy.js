@@ -53,7 +53,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
       .type('ppp')
       .should('have.value', '')
   })
-  it('Exec 4- Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
+  it.only('Exec 4- Exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', function () {
     cy.get('#firstName')
       .type('Eduardo')
     cy.get('#lastName')
